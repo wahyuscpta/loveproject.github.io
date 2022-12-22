@@ -1,0 +1,688 @@
+ 
+<html>
+ 
+<head>
+        <title>Moleskine Notebook with jQuery Booklet</title>
+         
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    
+    
+
+ <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700i" rel="stylesheet">
+ 
+ 
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+		<script src="booklet/jquery.easing.1.3.js" type="text/javascript"></script>
+		<script src="booklet/jquery.booklet.1.1.0.min.js" type="text/javascript"></script>
+
+		<link href="booklet/jquery.booklet.1.1.0.css" type="text/css" rel="stylesheet" media="screen" />
+		 
+		 
+		 <style>
+         
+              *{
+	margin:0;
+	padding:0;
+}
+body{
+	background:#555;	
+	color:#444;
+	font-size:12px;
+	color: #333;
+    font-family: 'Oswald', sans-serif;
+}
+ 
+ 
+.booklet           {
+	width:900px;
+	height:607px;
+	position:relative;
+	margin:0 auto 10px;
+	-moz-box-shadow:0px 0px 1px #fff;
+	-webkit-box-shadow:0px 0px 1px #fff;
+	box-shadow:0px 0px 1px #fff;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+}
+.booklet .b-wrap-left  {
+	background:#fff url(images/left_bg.jpg) no-repeat top left;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-topleft:10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.booklet .b-wrap-right {
+	background:#efefef url(images/right_bg.jpg) no-repeat top left;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomright: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.booklet .b-counter {
+	bottom:10px;
+	position:absolute;
+	display:block;
+	width:90%;
+	height:20px;
+	border-top:1px solid #ddd;
+	color:#222;
+	text-align:center;
+	font-size:12px;
+	padding:5px 0 0;
+	background:transparent;
+	-moz-box-shadow:0px -1px 1px #fff;
+	-webkit-box-shadow:0px -1px 1px #fff;
+	box-shadow:0px -1px 1px #fff;
+	opacity:0.8;
+}
+.book_wrapper{
+	margin:0 auto;
+	padding-top:50px;
+	width:905px;
+	height:540px;
+	position:relative;
+	background:transparent url(images/bg.png) no-repeat 9px 27px;
+}
+.book_wrapper h1{
+	color: #ea80b0;
+	margin:5px 5px 5px 15px;
+	font-size:24px;
+	background:transparent url(images/h1.png) no-repeat bottom left;
+	padding-bottom:7px;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+.book_wrapper p{
+	font-size:15px;
+	margin:5px 5px 5px 15px;
+}
+.book_wrapper a.article,
+.book_wrapper a.demo{
+	background:transparent url(images/circle.png) no-repeat 50% 0px;
+	display:block;
+	width:95px;
+	height:41px;
+	text-decoration:none;
+	outline:none;
+	font-size:16px;
+	color:#555;
+	float:left;
+	line-height:41px;
+	padding-left:47px;
+}
+.book_wrapper a.demo{
+	margin-left:50px;
+}
+.book_wrapper a.article:hover,
+.book_wrapper a.demo:hover{
+	background-position:50% -41px;
+	color:#13386a;
+}
+.book_wrapper img{
+	margin:10px 0px 5px 35px;
+	width:300px;
+	padding:4px;
+	border:1px solid #ddd;
+	-moz-box-shadow:1px 1px 1px #fff;
+	-webkit-box-shadow:1px 1px 1px #fff;
+	box-shadow:1px 1px 1px #fff;
+}
+.booklet .b-wrap-right img{
+	border:1px solid #E6E3C2;
+}
+a#next_page_button,
+a#prev_page_button{
+	display:none;
+	position:absolute;
+	width:41px;
+	height:40px;
+	cursor:pointer;
+	margin-top:-20px;
+	top:50%;
+	background:transparent url(images/buttons.png) no-repeat 0px -40px;
+}
+a#prev_page_button{
+	left:-30px;
+}
+a#next_page_button{
+	right:-30px;
+	background-position:-41px -40px;
+}
+a#next_page_button:hover{
+	background-position:-41px 0px;
+}
+a#prev_page_button:hover{
+	background-position:0px 0px;
+}
+ 
+p{
+	text-align: justify;
+	font-family: poppins;
+	font-size: 13px !important;
+}
+
+canvas {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+#loved{
+	padding: 15px;
+	margin: 200px 125px;
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	cursor: pointer;
+	background-color: #ea80b0;
+	border-radius: 3px;
+	border: none;
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.16);
+}
+
+#hidden-love{
+	transition: 1s;
+	opacity: 0;
+	margin-top: -700px;
+	overflow: hidden;
+}
+
+#text-love{
+	opacity: 0;
+	transition: 1.5s;
+	color: #ea80b0;
+	font-weight: bold;
+	font-size: 20px;
+	text-align: center;
+	margin-top: 500px;
+}
+    
+    
+         </style>
+		 
+    </head>
+    <body>
+    <br><br>
+		 
+		<div class="book_wrapper" id="book_wrapp">
+			<a id="next_page_button"></a>
+			<a id="prev_page_button"></a>
+			 
+			<div id="mybook" style="display:none;">
+				<div class="b-load">
+					<div>
+						<img src="images/1.jpg" alt=""/>
+						<h1>Slider Gallery</h1>
+						<p>This tutorial is about creating a creative gallery with a
+							slider for the thumbnails. The idea is to have an expanding
+							thumbnails area which opens once an album is chosen.
+							The thumbnails will scroll to the end and move back to
+							the first image. The user can scroll through the thumbnails
+							by using the slider controls. When a thumbnail is clicked,
+							it moves to the center and the full image preview opens.</p>
+						<a href="" class="article">ARTICLE</a>
+						<a href="" class="demo">DEMO</a>
+					</div>
+					<div>
+						<img src="images/2.jpg" alt="" />
+						<h1>Animated Portfolio Gallery</h1>
+						<p>Today we will create an animated portfolio gallery with jQuery.
+							The gallery will contain a scroller for thumbnails and a
+							content area where we will display details about the portfolio
+							item. The image can be enlarged by clicking on it, making
+							it appear as an overlay.</p>
+						<a href="" target="_blank" class="article">ARTICLE</a>
+						<a href="" class="demo">DEMO</a>
+					</div>
+					<div>
+						<h1>PROLOG</h1>
+						<p>
+							<br>
+							Hi Deway Cantik, selamat TGL 24 yang kedua dan ga kerasa udah 2 bulan kita pacaran. Hubungan yang bisa dibilang masih singkat karena kita cuma pdkt ga ada sebulan dan tiba-tiba pacaran dan pasti banyak hal tentang kita masing-masing yang mungkin belum banyak kita tahu satu sama lain. 
+							<br><br>
+							Gimana rasanya ngejalanin hubungan sama orang pendiem, flat, ga suka banyak cerita bahkan sampai ke hal kecil pun aku kadang gak bisa ngasi keputusan ? bosen ? kesel:) ? hehe aku tahu dan mungkin kamu juga sering kesel dengan hal itu. Maaf kalau pacaran sama aku bukannya bikin kamu seneng terus dan malah buat kamu kesel, sedih, bahkan sampe nangis. Tapi intinya aku sayang kali sama kamu. Lewat perantara ini mungkin aku akan sedikit cerita dan FYI aku buat ini pas lagi banyak kepikiran aja yaa biar aku lega aja sii ngeluarin semua isi di otak wkwkwk. 
+						</p>
+					</div>
+					<div>
+						<h1 style="color: transparent;">PROLOG</h1>
+						<br>
+						<p>
+							Maunya pake bahasa inggris tapi kayaknya ribet aku pake bahasa lokal aja wkwk. So you don't need to give any reaction or statement, just read until the end because there will be something special there.
+						</p>
+					</div>
+					<div>
+						<h1>CHAPTER 1</h1>
+						<p>
+							<br>
+							Kalo kamu nanya kenapa aku sering diem ? sebenarnya memang aslinya aku orangnya pendiem, dan walau ga ada masalah pun ya aku lebih suka diem. Mungkin udah terbiasa kayak gitu itu jadinya aku lebih suka mendam sebuah cerita yang mungkin seharusnya bisa diceritakan dan kadang pas aku ingin cerita pun aku juga bingung gimana cara ngungkapinnya. Ya karena aku sudah terbiasa diem dan kayak membuat obrolan sendiri di pikiranku. 
+							<br><br>
+							Kalo kamu nanya apa kalo aku diam aku lagi kesel ? bisa iya bisa jadi engga. Aku sama kayak kamu dan mungkin lebih parah, yaaa aku punya mood yang cepet berubah dan bisa jadi juga pas aku diam tiba-tiba mungkin moodku tiba-tiba berubah jadi jelek. Kalo aku diam kemungkinan nya juga mungkin aku lagi laper atau mungkin ngantuk hehe
+						</p>
+					</div>
+					<div>
+						<h1 style="color: transparent;">CHAPTER 1</h1>
+						<br>
+						<p>
+							atau bisa jadi sedang overthink yaa kamu tau aku semuanya tak pikir, sama kayak yang aku pernah bilang sebelumnya. Dan kalo kamu minta aku untuk jangan diem dan ngomong pas lagi kesal atau marah sama kamu, satu hal yang kamu mungkin harus tau, kalo aku ngomong pas kesel atau marah yaa mungkin nada bicaraku akan sedikit tinggi dan membentak. 
+							<br><br>
+							Dan terakhir kali aku kayak gitu itu aku jadi ga ngomong sama bapakku sebulan :) Dan aku juga tau kamu ga suka dan ga bisa dibentak. Aku ga tau juga seberapa standar keras nada bicaraku sampe bisa disebut bentak kamu, soalnya terakhir kali kamu nangis karena kamu bilang aku bentak kamu, padahal menurutku nada bicaraku masih pelan dan tidak ada niatan sedikit pun untuk bentak kamu. Jadi yaa mungkin aku lebih suka diem karena aku takut hal tadi terjadi lagi.
+						</p>
+					</div>
+					<div>
+						<h1>CHAPTER 2</h1>
+						<br>
+						<p>
+							Btw makasi buat hadiah kemarin, haha aku ga tau kenapa kamu sampe kepikiran buat beliin aku hadiah itu padahal ga ada acara apa-apa. Yaa walaupun kamu bilang itu hadiah karena aku ga diemin kamu dari sehari sebelumnyaa tapi besoknya aku diem lagi hehe. Sekalian aku ngasi tau disini aja kali ya hari itu sebenarnya aku ga kenapa-kenapa cuma lagi overthink aja dan lagi pengen diem aja yaa gabut gatau mau ngapain nungguin kamu tidur jadinya tiba-tiba otakku mulai buat obrolan sendiri, tapi jadi kebablasan diem dehh hehe, maaf. 
+							<br><br>
+							Balik lagi soal hadiah, jujur pas kamu ngasi aku hadiah aku yaa seneng cuma sekaligus bingung juga. Aku jadi ngerasa aku harus ngasi kamu hadiah jugaa. Untuk orang yang flat kyak aku, bingung sii untuk ngasi kamu hadiah apa yaa mungkin nanti aku juga akan ngasi kamu sesuatu:). Makasi yaaa hadiahnya. 
+						</p>
+					</div>
+					<div>
+						<h1>CHAPTER 3</h1>
+						<br>
+						<p>
+							Semangat buat skripsinya, dikit lagi kan hehe kalo kamu butuh bantuan bilang aja aku bakal bantu yang aku bisa aja wkwk. Kalo kamu bingung abis lulus mau kemana yaa ikutin kata hati kamu aja kamu pengennya kemana dan cita-cita kamu mau kemana mau jadi guru atau kerjaa ke luar yaa silahkan aja. Kalaupun kamu bener mau kerja ke luar ya kejar aja SEMANGAT. Gapapa kok beneran, jangan gara-gara aku kamu batalin cita-cita kamu buat kerja di luar. Aku gamau jadi egois juga ngelarang kamu buat kerja ke luar. Ya walaupun aku ga tau apa kita bakal sering ketemu lagi setelah kamu lulus nanti, yaa mungkin aku udah pernah bilang sama kamu di awal kita pacaran sii. Dengan kondisi sekarang kita sama sama butuh waktu untuk sering ketemu and need some physical touch too. Yaa aku harap nanti masi sering ketemu sih :). Tapi yaa nanti pasti bakal ketemu jalannya walaupun bakal LDR hehe.
+						</p>
+					</div>
+					<div>
+						<h1>CHAPTER 4</h1>
+						<br>
+						<p>
+							Kamu juga sering nanya kenapa aku ga pernah ngecek hp kamu, yaa jawabanku cuma yaa buat apa dan aku mau ngecek apa jugaa kan yaa paling pinjem buat scroll sosmed. Toh juga aku udah nitip pesen sama kamu klo ada yang ngechat aneh aneh ya ga usah direspon dan aku udah ngasi kepercayaan itu sama kamu. Tapi sekalinya nanti kamu ngerusak kepercayaan itu yaudah SELESAI, itu aja si prinsipnya. 
+							<br><br>
+							Ya mungkin kamu punya trauma dan kebiasaan masa lalu yang ngebuat kamu selalu nanya kenapa aku ga ngecek hp kmu, dan kalo pun kamu mau ngecek ngecek hp aku, ya silahkan aku ga masalah kok beneran dan mungkin nanti sekali dua kali lah aku pinjem pinjem hp kamu jugaa. Kalo kamu nanya kesel ga kalo banyak cowok yang masih coba ngechat dan ngeadd nomer kamu, yaa kesel lah cowo mana coba yang ga kesel pacarnya di chat chat cowo lain. 
+						</p>
+					</div>
+					<div>
+						<h1 style="color: transparent;">Compact News Previewer</h1>
+						<br>
+						<p>
+							Yaa tapi mau gimana lagi, kalo denger cerita kamu gimana kamu dulu friendly sama orang dan terlebih kebanyakan cowok menurutku ya wajar aja banyak yg masih coba ngedeketin kamu. 
+						</p>
+					</div>
+					<div>
+						<h1>CHAPTER 5</h1>
+						<br>
+						<p>
+							Cantiikkk, jangan pake baju terlalu terbukaa yaa, apalagi di sosmed followers kamu banyakkk. Bukannya gimana-gimana, aku ga suka kamu di liatin orang lain apalagi dengan pakaian yang terbuka. Aku tau gimana isi otak cowo kok, dan aku juga udah pernah bilang sama kamu waktu itu gimana temen-temenku ngeliat foto kamu sebelum kita deket. 
+							<br><br>
+							Aku ga suka juga kalo kamu nantinya di omongin gimana-gimana karena sebelumnya yaa kamu digituin dan aku ga suka pacar aku digituin. Jangankan pake baju terbuka, kamu cuma ngepost foto cantik aja aku ngerasa kayak ga rela aja gitu pacar aku diliatin orang lain, EGOIS sih padahal itu kan hak kamu tapii ya gimanaa itu sii yang aku rasain. Tapi ini bukan bermaksud ngelarang kamu ngepost foto yaa, ngepost mah silahkan aja yang penting pesen aku jangan pake pakaian terlalu kebuka.
+						</p>
+					</div>
+					<div>
+						<h1>CHAPTER 6</h1>
+						<br>
+						<p>
+							The last important thing I have to say, Kamu sering nanya kenapa aku mau pacaran sama kamu ? Aku ga tau dan ga punya alasan kenapa aku suka sama kamu tapi. Yang jelas dulu aku pernah suka sama kamu tapi kamu udah pacar dan kamu tau aku bukan tipe cowo yang berani deketin cewe. Dan pas kamu dibilang suka sama aku yaa rasa suka itu adaa lagi gitu, ya kenapa ga dijadiin aja. Ya mungkin klo diitung-itung kita baru kenal deket belum lama. 
+							<br><br>
+							Tapi aku tau kamu gimana itu secara tidak langsung udah dikenalin dari cerita sama petuah petuah khususnya MR.JEN jadi yaa dari sana aku bisa sedikit lebih kenal gimana kamunya. Satu hal yang bikin aku mau sama kamu pas dibilang kalo kamu bakal bener-bener sayang kali sama orang yang kamu suka duluan.
+						</p>
+					</div>
+					<div>					
+						<h1 style="color: transparent;">Pull Out Content Panel</h1>
+						<br>
+						<p> 
+							Jadi yaa aku mikir mau cari yang gimana lagi ni udah ada cewe yang bakal bener sayang kali sama aku dan dulu juga aku pernah suka sama ni cewe yaa kenapa ga jadiin buat pacaran aja walaupun baik jeleknya bakal kita tauin belakangan karena yaa kita baru deket sebentar kan tapi its okayyy. 
+							<br><br>
+							Sorry kalo ini nyinggung perasaan kamu, tapi aku harus omongin ini juga coz this is always makes me overthink. Yaa seperti yang pernah aku bilang sebelumnya ada beberapa hal yang sampe sekarang aku belum bisa terima dari kamu dan ga tau kenapa sangat sulit untuk diterima. Mungkin dari mulut bisa menerima tapi ternyata dalam hati engga bisa deng. Yes its about your PAST, YOUR EX and WHAT DID YOU DO WITH YOUR EX. Aku bingung mulai dari mana, kamu sering cerita dulu banyak dideketin cowo dan kamu juga temennya banyakan cowok
+							<br><br>
+						</p>
+					</div>
+					<div>
+						<h1 style="color: transparent;">Thumbnails Navigation Gallery</h1>
+						<p>
+							<br>
+							beberapa kali minum sama cowo di kos dan ada sampe yang nginepin kamu juga. Yaa mungkin pas kamu cerita itu aku keliatan biasa aja tapi sebenernya sakit juga sii denger kayak anjir kenapa sii. Yaa gatau yaa, kaya ga terima aja kamu deket sama cowo yaa padahal itu kan dulu, kenal sama aku aja belum :) Yaa kesel aja dengernya. 
+							<br><br>
+							Yaa aku sebenarnya aku udah tau sii dari cerita-cerita orang dan ngeliat modelan apalagi kamu mantan MR.I yaa pasti kamu udah "pernah". Maaf kalo aku ngebahas ini lagi. Tapi pas kamu bilang sendiri pas diawal kita pacaran kalo kamu udah "pernah" kayak anjirr sakit juga dengernya. Apalagi mantan kamu yng sebelumnya tu orang deket yang aku kenal juga dan kamu bilang udah sering sama dia. Kayak itu ga bisa diterima dan selalu bikin aku overthink, sesekali pas ngeliat muka kamu pas lagi polos-polosnya pasti 
+						</p>
+					</div>
+					<div>
+						<h1 style="color: transparent;">Thumbnails Navigation Gallery</h1>
+						<p>
+							<br>
+							hal-hal yang ga bisa aku terima itu muncul lagi dan bikin overthink lagi kayak anjirr kok kamu dulu gitu sii, and i dont know why. Munafik sih kedengerannya karena aku juga udah "pernah" sama kamu, tapi yaa karena kamu udah pernah dan aku mikirnya pasti kamu akan ada rasa PENGEN jugaa dan bener aja rasa itu sangat tinggi di kamu dan kamu ga bisa sendirian, sedangkan aku masii bisaa so yaa gimanaa. 
+							<br><br>
+							Maaf kalo ngebahas ini lagi, aku cuma pengen ngeluarin apa yang sering bikin aku kepikiran dan yaa aku belum bisa terima karena terus terang itu ngebuat aku overthink terlebih kamu mantannya MR.I dengan alasan yang matah ku dengar dan gaya pacaran kamu sebelumnya kayak yang pernah aku bilang waktu itu. Dan cerita kamu diapaain sama MR.I tu juga bikin nyesek sih. 
+						</p>
+					</div>
+					<div>
+						<h1 style="color: transparent;">Thumbnails Navigation Gallery</h1>
+						<p>
+							<br>
+							Selalu muncul pikiran konyol tentang kenapa aku baru jadi sama kamu sekarang kenapa ga dari dulu, yaa hal-hal itu yang buat marah tapi percuma karena ga bisa diubah. So itu juga yang ngebuat aku sekarang ga telalu kepo lagi, ya kalo kamu mau cerita yaudaa kalo ga juga gapapa, takut kepirian hehe:) tapi baru aku bilang gitu kamu jangn ga mau cerita-cerita lagi, gapapa bagusnya sii kamu cerita aja daripada aku tau sesuatu dari orang lain kan. And I don't know how long this has been on my mind. SORRY banget untuk ngebahas ini lagi.
+						</p>
+					</div>
+					<div>
+						<h1>END</h1>
+						<p>
+							<br>
+							Yaa mau gimana juga, sekarang kamu pacar aku, kamu punya aku dan aku bakal tetep sayang sama kamuuu dan kalo kamu minta aku jangan berhenti sayang sama kamu karena hal-hal yang ga bisa aku terima. Yaa tanpa kamu minta ya I WILL  LOVE YOU AND WILL NOT LEAVE YOU AND I HOPE YOU DO TOO. So sekali lagi selamat tanggal 24 yang kedua dan maaf kalo aku juga masih banyak kurangya, ya intinya JANGAN BERHENTI SAYANG SAMA AKU. I LOVE YOU SO MUCH.
+							
+						</p>
+					</div>
+					<div>
+						<button id="loved" onclick="openLoved()">CLICK ME !</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="hidden-love">
+			<canvas id="pinkboard"></canvas>
+		</div>
+
+		<div id="text-love">
+			<br><br><br>
+			<h1>HAPPY 24/2 AND I LOVE YOU SO MUCH</h1>
+			<H1>DEWA AYU KARTIKA PRASANTI</H1>
+		</div>
+
+		<script>
+			function openLoved(){
+				document.getElementById("book_wrapp").style.display="none";
+				document.getElementById("hidden-love").style.opacity="1";
+				document.getElementById("hidden-love").style.marginTop="-100px";
+				document.getElementById("text-love").style.opacity="1";
+			}
+		</script>
+
+		<script>
+			const settings = {
+        particles: {
+          length: 500, // 长度
+          duration: 2, // 持续时间
+          velocity: 100, // 速度
+          effect: -0.75, // 偏移
+          size: 30, // 例子大小
+          loveColor: '#ea80b0' // 爱心颜色
+        }
+      }
+
+      /*
+       * 使用requestAnimationFrame 代替setTimeout，优化性能
+       */
+      ;(function () {
+        let b = 0
+        let c = ['ms', 'moz', 'webkit', 'o']
+        for (let a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
+          window.requestAnimationFrame = window[c[a] + 'RequestAnimationFrame']
+          window.cancelAnimationFrame =
+            window[c[a] + 'CancelAnimationFrame'] || window[c[a] + 'CancelRequestAnimationFrame']
+        }
+        if (!window.requestAnimationFrame) {
+          window.requestAnimationFrame = function (h, e) {
+            let d = new Date().getTime()
+            let f = Math.max(0, 16 - (d - b))
+            let g = window.setTimeout(function () {
+              h(d + f)
+            }, f)
+            b = d + f
+            return g
+          }
+        }
+        if (!window.cancelAnimationFrame) {
+          window.cancelAnimationFrame = function (d) {
+            clearTimeout(d)
+          }
+        }
+      })()
+
+      /*
+       * Point类
+       */
+      class Point {
+        constructor(x, y) {
+          this.x = typeof x !== 'undefined' ? x : 0
+          this.y = typeof y !== 'undefined' ? y : 0
+        }
+        clone() {
+          return new Point(this.x, this.y)
+        }
+        length(length) {
+          if (typeof length == 'undefined') return Math.sqrt(this.x * this.x + this.y * this.y)
+          this.normalize()
+          this.x *= length
+          this.y *= length
+          return this
+        }
+        normalize() {
+          let length = this.length()
+          this.x /= length
+          this.y /= length
+          return this
+        }
+      }
+
+      /*
+       * 粒子类
+       */
+      class Particle {
+        constructor() {
+          this.position = new Point()
+          this.velocity = new Point()
+          this.acceleration = new Point()
+          this.age = 0
+        }
+        initialize(x, y, dx, dy) {
+          // 初始化
+          this.position.x = x
+          this.position.y = y
+          this.velocity.x = dx
+          this.velocity.y = dy
+          this.acceleration.x = dx * settings.particles.effect
+          this.acceleration.y = dy * settings.particles.effect
+          this.age = 0
+        }
+        update(deltaTime) {
+          // 更新
+          this.position.x += this.velocity.x * deltaTime
+          this.position.y += this.velocity.y * deltaTime
+          this.velocity.x += this.acceleration.x * deltaTime
+          this.velocity.y += this.acceleration.y * deltaTime
+          this.age += deltaTime
+        }
+        draw(context, image) {
+          // 绘制
+          function ease(t) {
+            return --t * t * t + 1
+          }
+          let size = image.width * ease(this.age / settings.particles.duration)
+          context.globalAlpha = 1 - this.age / settings.particles.duration
+          context.drawImage(
+            image,
+            this.position.x - size / 2,
+            this.position.y - size / 2,
+            size,
+            size
+          )
+        }
+      }
+
+      /*
+       * 粒子池
+       */
+      class ParticlePool {
+        constructor(length) {
+          this.particles = []
+          this.firstActive = 0
+          this.firstFree = 0
+          this.duration = settings.particles.duration
+          // 创建并且填充粒子
+          this.particles = new Array(length)
+          for (let i = 0; i < this.particles.length; i++) this.particles[i] = new Particle()
+        }
+        add(x, y, dx, dy) {
+          this.particles[this.firstFree].initialize(x, y, dx, dy)
+          // 处理队列
+          this.firstFree++
+          if (this.firstFree == this.particles.length) this.firstFree = 0
+          if (this.firstActive == this.firstFree) this.firstActive++
+          if (this.firstActive == this.particles.length) this.firstActive = 0
+        }
+        update(deltaTime) {
+          let i
+          // 更新爱心粒子
+          if (this.firstActive < this.firstFree) {
+            for (let i = this.firstActive; i < this.firstFree; i++)
+              this.particles[i].update(deltaTime)
+          }
+          if (this.firstFree < this.firstActive) {
+            for (let i = this.firstActive; i < this.particles.length; i++)
+              this.particles[i].update(deltaTime)
+            for (let i = 0; i < this.firstFree; i++) this.particles[i].update(deltaTime)
+          }
+          // 删除边缘粒子
+          while (
+            this.particles[this.firstActive].age >= this.duration &&
+            this.firstActive != this.firstFree
+          ) {
+            this.firstActive++
+            if (this.firstActive == this.particles.length) this.firstActive = 0
+          }
+        }
+        draw(context, image) {
+          // 绘制粒子
+          if (this.firstActive < this.firstFree) {
+            for (let i = this.firstActive; i < this.firstFree; i++)
+              this.particles[i].draw(context, image)
+          }
+          if (this.firstFree < this.firstActive) {
+            for (let i = this.firstActive; i < this.particles.length; i++)
+              this.particles[i].draw(context, image)
+            for (let i = 0; i < this.firstFree; i++) this.particles[i].draw(context, image)
+          }
+        }
+      }
+
+      /*
+       * main
+       */
+      ;(function (canvas) {
+        let context = canvas.getContext('2d')
+        let particles = new ParticlePool(settings.particles.length)
+        let particleRate = settings.particles.length / settings.particles.duration // particles/sec
+        let time
+        // 初始化
+        function pointOnHeart(t) {
+          return new Point(
+            160 * Math.pow(Math.sin(t), 3),
+            130 * Math.cos(t) -
+              50 * Math.cos(2 * t) -
+              20 * Math.cos(3 * t) -
+              10 * Math.cos(4 * t) +
+              25
+          )
+        }
+        // 用一个虚拟的canvas创建粒子图片
+        let image = (function () {
+          let canvas = document.createElement('canvas')
+          let context = canvas.getContext('2d')
+          canvas.width = settings.particles.size
+          canvas.height = settings.particles.size
+          function to(t) {
+            let point = pointOnHeart(t)
+            point.x = settings.particles.size / 2 + (point.x * settings.particles.size) / 350
+            point.y = settings.particles.size / 2 - (point.y * settings.particles.size) / 350
+            return point
+          }
+          // 创建路径
+          context.beginPath()
+          let t = -Math.PI
+          let point = to(t)
+          context.moveTo(point.x, point.y)
+          while (t < Math.PI) {
+            t += 0.01 // 精度为0.01
+            point = to(t)
+            context.lineTo(point.x, point.y)
+          }
+          context.closePath()
+          // 绘制路径
+          context.fillStyle = settings.particles.loveColor
+          context.fill()
+          // 返回图片
+          let image = new Image()
+          image.src = canvas.toDataURL()
+          return image
+        })()
+        // 渲染
+        function render() {
+          // 清除画布
+          requestAnimationFrame(render)
+          // 更新
+          let newTime = new Date().getTime() / 1000,
+            deltaTime = newTime - (time || newTime)
+          time = newTime
+          // clear
+          context.clearRect(0, 0, canvas.width, canvas.height)
+          // 创建新的粒子
+          let amount = particleRate * deltaTime
+          for (let i = 0; i < amount; i++) {
+            let pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random())
+            let dir = pos.clone().length(settings.particles.velocity)
+            particles.add(canvas.width / 2 + pos.x, canvas.height / 2 - pos.y, dir.x, -dir.y)
+          }
+          // 更新和绘制粒子
+          particles.update(deltaTime)
+          particles.draw(context, image)
+        }
+        // 处理画布
+        function onResize() {
+          canvas.width = canvas.clientWidth
+          canvas.height = canvas.clientHeight
+        }
+        window.onresize = onResize
+        // 延迟渲染
+        setTimeout(function () {
+          onResize()
+          render()
+        }, 10)
+      })(document.getElementById('pinkboard'))
+		</script>
+        
+        <script type="text/javascript">
+			$(function() {
+				var $mybook 		= $('#mybook');
+				var $bttn_next		= $('#next_page_button');
+				var $bttn_prev		= $('#prev_page_button');
+				var $loading		= $('#loading');
+				var $mybook_images	= $mybook.find('img');
+				var cnt_images		= $mybook_images.length;
+				var loaded			= 0;
+				 
+				$mybook_images.each(function(){
+					var $img 	= $(this);
+					var source	= $img.attr('src');
+					$('<img/>').load(function(){
+						++loaded;
+						if(loaded == cnt_images){
+							$loading.hide();
+							$bttn_next.show();
+							$bttn_prev.show();
+							$mybook.show().booklet({
+								name:               null,                            //  
+								width:              800,                             //  
+								height:             500,                             //   
+								speed:              600,                             //  
+								direction:          'LTR',                           //  
+								                           //  
+								next:               $bttn_next,          			//  
+								prev:               $bttn_prev,          			//  
+								                       
+							});
+							Cufon.refresh();
+						}
+					}).attr('src',source);
+				});
+				
+			});
+        </script>
+ 
+    </body>
+ 
+</html>
